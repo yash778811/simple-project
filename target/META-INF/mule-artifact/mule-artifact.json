@@ -1,0 +1,54 @@
+{
+  "configs": [
+    "scatter-gather.xml"
+  ],
+  "secureProperties": [],
+  "supportedJavaVersions": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:scatter-gather:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.11.0",
+  "requiredProduct": "MULE_EE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "log4j2.xml",
+        "scatter-gather.xml",
+        "application-types.xml",
+        "prod.properties",
+        "dw/util/Math.dwl",
+        "dw/test/internal/Utils.dwl",
+        "dw/core/Objects.dwl",
+        "dw/util/Coercions.dwl",
+        "dw/System.dwl",
+        "dw/core/Arrays.dwl",
+        "dw/core/Binaries.dwl",
+        "dw/core/Types.dwl",
+        "dw/util/Tree.dwl",
+        "dw/core/Numbers.dwl",
+        "dw/util/Diff.dwl",
+        "dw/test/Asserts.dwl",
+        "dw/core/URL.dwl",
+        "dw/util/Timer.dwl",
+        "dw/core/Dates.dwl",
+        "dw/core/Strings.dwl",
+        "dw/Crypto.dwl",
+        "MunitTools.dwl",
+        "dw/module/Multipart.dwl",
+        "dw/Runtime.dwl",
+        "dw/Core.dwl",
+        "dw/util/Values.dwl",
+        "dw/extension/DataFormat.dwl",
+        "dw/core/Periods.dwl"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  },
+  "javaSpecificationVersions": [
+    "21"
+  ]
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="957e96cd-5d39-459b-90e2-20457540cc31" >
+		<http:listener-connection host="${listener.host}" port="${listener.port}" readTimeout="${listener.timeout}"/>
+	</http:listener-config>
+	
+	<http:request-config name="HTTP_Request_config1" doc:name="HTTP Request config" doc:id="c5811ca6-8817-4345-b923-c269374ac235">
+		<http:request-connection host="${request2.host}"/>
+	</http:request-config>
+	<configuration-properties doc:name="Configuration properties" doc:id="4143bf60-60cc-4d74-ada3-1ac02044232b" file="prod.properties" />
+	<flow name="scatter-gatherFlow" doc:id="9f756e85-ad8d-43fb-b95b-d2e4ede67c38" >
+		<http:listener doc:name="Listener" doc:id="a809b493-228c-4afc-b1ab-97669141b731" config-ref="HTTP_Listener_config" path="${listener.path}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="0ee63d36-e8c3-4982-adeb-56a636b4cf65" message="#[payload]"/>
+		<scatter-gather doc:name="Scatter-Gather" doc:id="6584a57f-a843-494c-b2b7-79dd6d1a2dab" >
+			<route >
+				<http:request doc:name="Request" doc:id="e28c87ab-14a2-4e2f-8266-1b017fd4a5cc" config-ref="HTTP_Request_config" method="POST" path="${request1.path}"/>
+				<logger level="INFO" doc:name="Logger" doc:id="76f2208c-77fa-46e4-a5e7-b718c98e486c" message="Data recieved #[payload]"/>
+			</route>
+			<route >
+				<http:request doc:name="Request" doc:id="2de7d9f7-9027-4030-bd44-54f08e374feb" config-ref="HTTP_Request_config1" method="POST" path="${request2.path}"/>
+				<logger level="INFO" doc:name="Logger" doc:id="68e25ca1-be80-4b3a-bce3-b61b0f6365af" message="data recieved #[payload]"/>
+			</route>
+		</scatter-gather>
+		<ee:transform doc:name="Transform Message" doc:id="cdc9c14c-b086-402b-bd73-c27de961bd35" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message" : "data sent successfully"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<http:request-config name="HTTP_Request_config" doc:name="HTTP Request config" doc:id="e4dd161b-c04f-43b9-8eb1-91d6bf05309e">
+		<http:request-connection host="${request1.host}" />
+	</http:request-config>
+</mule>
